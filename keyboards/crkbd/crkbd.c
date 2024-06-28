@@ -29,8 +29,7 @@ __attribute__((weak)) const keypos_t PROGMEM hand_swap_config[MATRIX_ROWS][MATRI
     {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}},
     {{0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}},
     {{0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 2}, {5, 2}},
-    {{0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}}
-};
+    {{0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}}};
 #endif
 
 #ifdef OLED_ENABLE
@@ -40,6 +39,10 @@ oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
         return OLED_ROTATION_180; // flips the display 180 degrees if offhand
     }
     return rotation;
+}
+
+static void oled_render_name(void) {
+    oled_write_ln_P(PSTR("Ban's CRKBD Firmware"), false);
 }
 
 static void oled_render_layer_state(void) {
@@ -147,6 +150,7 @@ bool oled_task_kb(void) {
         return false;
     }
     if (is_keyboard_master()) {
+        oled_render_name();
         oled_render_layer_state();
         oled_render_keylog();
     } else {
